@@ -1,0 +1,4 @@
+build/
+library/out/
+.gradle/
+.idea/
