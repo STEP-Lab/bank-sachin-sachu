@@ -35,4 +35,16 @@ public class AccountTest {
     public void checkInvalidAccountNumber() throws MinimumBalanceException, InvalidAccountNumberException {
         new Account("111-111", 7000);
     }
+
+    @Test(expected = MinimumBalanceException.class)
+    public void checkWithdraw() throws MinimumBalanceException, InvalidAccountNumberException {
+        new Account("1212-4343",4444.0).withdraw(5000.0);
+    }
+
+    @Test
+    public void checkWithdrawForMinimumBalance() throws MinimumBalanceException, InvalidAccountNumberException {
+        Account acc = new Account("1212-3434", 4444.0);
+        acc.withdraw(444.0);
+        assertThat(acc.getBalance(), is((double) 4000));
+    }
 }

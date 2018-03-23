@@ -11,8 +11,12 @@ public class Account {
     public Account(String accountNumber, double balance) throws MinimumBalanceException, InvalidAccountNumberException {
         checkForValidAccountNumber(accountNumber);
         this.accountNumber = accountNumber;
-        if(balance < MINIMUM_BALANCE) throw new MinimumBalanceException();
+        checkForMinimumBalance(balance, MINIMUM_BALANCE);
         this.balance = balance;
+    }
+
+    private static void checkForMinimumBalance(double amount, double minimumBalance) throws MinimumBalanceException {
+        if(amount < minimumBalance) throw new MinimumBalanceException();
     }
 
     private static void checkForValidAccountNumber(String accNumber) throws InvalidAccountNumberException {
@@ -27,5 +31,10 @@ public class Account {
 
     public String getAccountNumber() {
         return accountNumber;
+    }
+
+    public void withdraw(double amount) throws MinimumBalanceException {
+        if(balance - amount < 0) throw new MinimumBalanceException();
+        balance -= amount;
     }
 }
