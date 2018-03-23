@@ -1,15 +1,19 @@
 package com.thoughtworks.bank;
 
 public class Account {
-    private final String accountNo;
+    private final String accountNumber;
     private int balance;
 
-    public Account(String accountNo, int balance) {
-        this.accountNo = accountNo;
+    public Account(String accountNumber, int balance) {
+        this.accountNumber = accountNumber;
         this.balance = balance;
     }
 
     public int getBalance() {
         return balance;
+    }
+
+    public String getAccountNumber() {
+        return accountNumber;
     }
 }
