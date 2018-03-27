@@ -4,6 +4,10 @@ import org.junit.Test;
 
 import java.util.Locale;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
+
+
 public class MoneyTest {
     @Test(expected = NegativeAmountException.class)
     public void checkForNegativeAmount() throws NegativeAmountException {
@@ -33,5 +37,11 @@ public class MoneyTest {
     @Test
     public void checkValidAddition() throws NegativeAmountException {
         new Money(new Locale("en", "IN"), 2000).add(1000);
+    }
+
+    @Test
+    public void foo() throws NegativeAmountException {
+        Money money = new Money(new Locale("en", "IN"), 2000);
+        assertThat(money.getCurrency(), is("INR"));
     }
 }

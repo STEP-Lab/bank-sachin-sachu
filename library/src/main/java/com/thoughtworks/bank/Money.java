@@ -26,4 +26,8 @@ public class Money {
         if(amount < 0) throw new NegativeAmountException();
         this.amount += amount;
     }
+
+    public String getCurrency() {
+        return currency.getCurrencyCode();
+    }
 }

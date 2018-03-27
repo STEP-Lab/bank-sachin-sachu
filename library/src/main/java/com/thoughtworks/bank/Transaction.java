@@ -5,13 +5,15 @@ import java.util.Objects;
 
 public class Transaction {
     private final Date date;
+    private String type;
     private final double amount;
-    private final String to;
+    private final String source;
 
-    public Transaction(Date date, double amount, String to) {
+    Transaction(Date date, String type, double amount, String source) {
         this.date = date;
+        this.type = type;
         this.amount = amount;
-        this.to = to;
+        this.source = source;
     }
 
     public double getAmount() {
@@ -28,12 +30,13 @@ public class Transaction {
         if (o == null || getClass() != o.getClass()) return false;
         Transaction that = (Transaction) o;
         return Objects.equals(amount, that.amount) &&
-                Objects.equals(to, that.to);
+                Objects.equals(source, that.source);
     }
 
     @Override
-    public int hashCode() {
-
-        return Objects.hash(amount, to);
+    public String toString() {
+        return date +
+                "," + type + "," + amount +
+                "," + source;
     }
 }

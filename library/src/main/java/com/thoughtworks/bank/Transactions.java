@@ -54,4 +54,11 @@ public class Transactions {
         }
         return result;
     }
+
+    public void printToCsv(PrintWriter writer) {
+        writer.println("date,type,amount,source");
+        for (Transaction transaction : list) {
+            writer.println(transaction.toString());
+        }
+    }
 }

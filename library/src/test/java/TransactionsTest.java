@@ -1,3 +1,4 @@
+import com.sun.javafx.binding.StringFormatter;
 import com.thoughtworks.bank.CreditTransaction;
 import com.thoughtworks.bank.DebitTransaction;
 import com.thoughtworks.bank.Transactions;
@@ -107,5 +108,27 @@ public class TransactionsTest {
         DebitTransaction expectedDebit1 = new DebitTransaction(debit1Date, 200, "Person 2");
         Transactions filteredTransactions = transactions.filterDebit();
         assertThat(filteredTransactions.list, hasItems(expectedDebit1));
+    }
+
+    @Test
+    public void CheckPrintToCsv() throws FileNotFoundException, UnsupportedEncodingException {
+        ArrayList<String> result = new ArrayList<>();
+        Date dateOfCredit = new Date();
+        Date dateOfDebit = new Date();
+        transactions.credit(dateOfCredit, 2000, "Person 1");
+        CreditTransaction credit = new CreditTransaction(dateOfCredit, 2000, "Person 1");
+        transactions.debit(dateOfDebit, 500, "Person 2");
+        DebitTransaction debit = new DebitTransaction(dateOfDebit, 500, "Person 2");
+        String csvHeader = "date,type,amount,source";
+        PrintWriter writer;
+        writer = new PrintWriter("transactionsToCsv.csv", "UTF8"){
+            @Override
+            public void println(String x) {
+                result.add(x);
+            }
+        };
+        transactions.printToCsv(writer);
+        writer.close();
+        assertThat(result, hasItems(csvHeader, credit.toString(), debit.toString()));
     }
 }
