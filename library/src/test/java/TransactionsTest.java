@@ -57,7 +57,8 @@ public class TransactionsTest {
         CreditTransaction credit = new CreditTransaction(dateOfCredit, 1000, "Person 1");
         transactions.debit(dateOfDebit, 500, "Person 2");
         DebitTransaction debit = new DebitTransaction(dateOfDebit, 500, "Person 2");
-        PrintWriter writer = new PrintWriter("the-file-name.txt", "UTF8"){
+        PrintWriter writer;
+        writer = new PrintWriter("the-file-name.txt", "UTF8"){
             @Override
             public void println(String x) {
                 result.add(x);
@@ -79,5 +80,32 @@ public class TransactionsTest {
         CreditTransaction expectedCredit1 = new CreditTransaction(credit1Date, 1000, "Person 1");
         Transactions filteredTransactions = transactions.filterByAmountGreaterThan(500);
         assertThat(filteredTransactions.list, hasItems(expectedCredit1));
+    }
+
+    @Test
+    public void filterCreditTransactions() {
+        Date credit1Date = new Date();
+        Date debit1Date = new Date();
+        Date credit2Date = new Date();
+        transactions.credit(credit1Date, 2000, "Person 1");
+        transactions.debit(debit1Date, 200, "Person 2");
+        transactions.credit(credit2Date, 400, "Person 1");
+        CreditTransaction expectedCredit1 = new CreditTransaction(credit1Date, 2000, "Person 1");
+        CreditTransaction expectedCredit2 = new CreditTransaction(credit2Date, 400, "Person 1");
+        Transactions filteredTransactions = transactions.filterCredit();
+        assertThat(filteredTransactions.list, hasItems(expectedCredit1, expectedCredit2));
+    }
+
+    @Test
+    public void filterDebitTransactions() {
+        Date credit1Date = new Date();
+        Date debit1Date = new Date();
+        Date credit2Date = new Date();
+        transactions.credit(credit1Date, 3000, "Person 1");
+        transactions.debit(debit1Date, 200, "Person 2");
+        transactions.credit(credit2Date, 400, "Person 1");
+        DebitTransaction expectedDebit1 = new DebitTransaction(debit1Date, 200, "Person 2");
+        Transactions filteredTransactions = transactions.filterDebit();
+        assertThat(filteredTransactions.list, hasItems(expectedDebit1));
     }
 }

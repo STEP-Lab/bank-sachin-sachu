@@ -28,9 +28,30 @@ public class Transactions {
         }
         return result;
     }
+
     public void print(PrintWriter writer){
         for (Transaction transaction : list) {
             writer.println(transaction.toString());
         }
+    }
+
+    public Transactions filterCredit() {
+        Transactions result = new Transactions();
+        for (Transaction transaction : list) {
+            if (transaction instanceof CreditTransaction) {
+                result.list.add(transaction);
+            }
+        }
+        return result;
+    }
+
+    public Transactions filterDebit() {
+        Transactions result = new Transactions();
+        for (Transaction transaction : list) {
+            if (transaction instanceof DebitTransaction) {
+                result.list.add(transaction);
+            }
+        }
+        return result;
     }
 }
